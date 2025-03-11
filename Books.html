@@ -16,27 +16,50 @@
         let Books =JSON.parse(localStorage.getItem('Books')) || [];
         console.log(Books)
         display();
-        function Book(id,name,author,pages,readDone){
-            this.id =id;
-            this.name = name;
-            this.author = author;
-            this.pages = pages;
-            this.readDone = readDone;
+
+        // function Book(id,name,author,pages,readDone){
+        //     this.id =id;
+        //     this.name = name;
+        //     this.author = author;
+        //     this.pages = pages;
+        //     this.readDone = readDone;
+        // }
+
+        class Book{
+            constructor(id,name,author,pages,readDone){
+                this.id = id;
+                this.name = name;
+                this.author = author;
+                this.pages = pages;
+                this.readDone = readDone;
+            }
         }
 
         function gotoForm(){
             window.location.href = "addBook.html"
         }
 
-        function addBook(name,author,pages){
-            id = crypto.randomUUID();
+        // function addBook(name,author,pages){
+        //     id = crypto.randomUUID();
+        //     let book1 = new Book(id,name,author,pages,0);
+        //     Books.push(book1);
+        //     localStorage.clear();
+        //     localStorage.setItem('Books', JSON.stringify(Books));
+        //     display();
+        // }
+
+        class addBook{
+            constructor(name,author,pages){
+            let id = crypto.randomUUID();
             let book1 = new Book(id,name,author,pages,0);
             Books.push(book1);
             localStorage.clear();
             localStorage.setItem('Books', JSON.stringify(Books));
             display();
+            }
         }
 
+        
         function display(){
             cont.innerHTML="";
             for(i=0;i<Books.length;i++){
@@ -87,7 +110,7 @@
             let author = localStorage.getItem("Author");
             let pages = localStorage.getItem("pages");
             if(bookname && author && pages)
-            {addBook(bookname,author,pages);}
+            {new addBook(bookname,author,pages);}
             console.log(Books);
             
 
