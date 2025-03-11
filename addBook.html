@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="addBook.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <form  id="form">
+        <ul class="wrapper">
+            <li class="hi"> 
+            <label for="name">NAME</label>
+            <input type="text" id="bookname" placeholder="Enter the Book Name"></li>
+            <li class=hi>
+            <label for="author">Author</label>
+            <input type="text" id="author" placeholder="Author Name"></li>
+            <li class="hi">
+            <label for="page">Pages</label>
+            <input type="number" id="pages" placeholder="Number of pages"></li>
+            <li class="hi">
+                
+                <button type="submit" name="submit">Submit</button> </li>
+
+        </ul>
+    </form>
+
+    <script>
+        document.querySelector("#form").addEventListener("submit", function(event){
+            event.preventDefault();
+            let name = document.querySelector("#bookname").value;
+            localStorage.setItem("bookname",name);
+            let author = document.querySelector("#author").value;
+            localStorage.setItem("Author",author);
+            let pages = document.querySelector("#pages").value;
+            localStorage.setItem("pages",pages);
+            window.location.href = "Books.html";
+        });
+        
+    </script>
+    
+    </body>
+</body>
+</html>

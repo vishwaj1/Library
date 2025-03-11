@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href = "Books.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body onload="RetrieveData()">
+    
+    <button class="addbook" onclick=gotoForm() >Add Book</button>
+
+    <div class="container"></div>
+    <script>
+        let cont = document.querySelector(".container");
+        let Books =JSON.parse(localStorage.getItem('Books')) || [];
+        console.log(Books)
+        display();
+        function Book(id,name,author,pages,readDone){
+            this.id =id;
+            this.name = name;
+            this.author = author;
+            this.pages = pages;
+            this.readDone = readDone;
+        }
+
+        function gotoForm(){
+            window.location.href = "addBook.html"
+        }
+
+        function addBook(name,author,pages){
+            id = crypto.randomUUID();
+            let book1 = new Book(id,name,author,pages,0);
+            Books.push(book1);
+            localStorage.clear();
+            localStorage.setItem('Books', JSON.stringify(Books));
+            display();
+        }
+
+        function display(){
+            cont.innerHTML="";
+            for(i=0;i<Books.length;i++){
+                let div = document.createElement("div");
+                div.textContent = `${Books[i].name}  ${Books[i].author}  ${Books[i].pages}`;
+                div.style.cssText = "border: 2px black solid; width: 300px;height:100px";
+                let del = document.createElement("button");
+                del.textContent = "Delete";
+                del.addEventListener("click", (function(id) {
+                    return function() {
+                        deleteBook(id);  
+                    };
+                })(Books[i].id)); 
+                let read = document.createElement("button");
+                read.textContent = "Mark as Read";
+                if(Books[i].readDone ===1){
+                    read.textContent = 'Mark as Unread';
+                        read.style.cssText = "color:green";
+                }
+                else{
+                    read.textContent = 'Mark as Read'
+                        read.style.cssText = "";
+                }
+                read.addEventListener("click",function(readDone){
+                    return function(){
+                    if(read.textContent==="Mark as Read"){
+                        read.textContent = 'Mark as Unread';
+                        read.style.cssText = "color:green";
+                        readDone = 1;
+                    }
+                    else if(read.textContent==='Mark as Unread'){
+                        read.textContent = 'Mark as Read'
+                        read.style.cssText = "";
+                        readDone = 0;
+                    }
+                    console.log(readDone);}
+                }(Books[i].readDone));
+                div.appendChild(del);
+                div.appendChild(read);
+                cont.appendChild(div);
+                
+
+            }
+        }
+
+        function RetrieveData(){
+            let bookname = localStorage.getItem("bookname");
+            let author = localStorage.getItem("Author");
+            let pages = localStorage.getItem("pages");
+            if(bookname && author && pages)
+            {addBook(bookname,author,pages);}
+            console.log(Books);
+            
+
+        }
+
+        function deleteBook(IdBookDelete){
+            Books = Books.filter(book => book.id!=IdBookDelete);
+            localStorage.setItem('Books',JSON.stringify(Books));
+            display();
+        }
+
+
+
+
+    </script>
+</body>
+</html>
